@@ -3,7 +3,7 @@ import {useState } from 'react'
 import { useContext } from 'react';
 import GeneralContext from './utils/GeneralContext';
 import { enviarTasacion } from './api/apiTasador';
-import './assets/Form.css'
+import './Form.css'
 
 function Form() {
   async function tasacion(e){
@@ -28,14 +28,21 @@ function Form() {
         formOpen
        } = useContext(GeneralContext);
 
-function formSubmithandler(){
-  alert("enviar datos")   
-}
+    function formSubmithandler(){
+    alert("enviar datos")   
+    }
+
+    function formClosehandler(){
+      setformOpen(false)        
+    }
 
   return (
     <div className='formContainer'>
         <div className='form'>
-            <h1>Información de piso</h1>
+            <div className='titleContainer'>
+                <p>Información de piso</p>
+                <button className='closeFormBtn' onClick={formClosehandler}><ion-icon name="close-outline"></ion-icon></button>
+            </div>
             <input type="number" placeholder='Superficie'/>
             <input type="number" placeholder='habitaciones'/>
             <input type="number" placeholder='baño'/>
