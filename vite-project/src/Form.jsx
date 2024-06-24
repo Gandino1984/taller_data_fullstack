@@ -6,41 +6,48 @@ import { enviarTasacion } from './api/apiTasador';
 
 
 function Form() {
+
+
   async function tasacion(e){
-    const tasacionArray = {'surface': '',
-      'bedrooms': '', 
-      'restrooms': ''}
-  
-  const data = {
-  method: 'POST',
-  headers: {
-  'Content-Type': 'application/json',
-  'x-api-key': 'test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni',
-  },
-  body: JSON.stringify(tasacionArray),
-  };
-  
-  
-  const tasacionArrayEnviar = await enviarTasacion(data)
-    }
+
+    const surface = e.target.parentElement.childNodes[1].value
+    const bedrooms = e.target.parentElement.childNodes[2].value
+    const restrooms = e.target.parentElement.childNodes[3].value
+
+    const tasacionArray = {'surface': surface,
+                          'bedrooms': bedrooms, 
+                          'restrooms': restrooms}
+                      
+    const data = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': 'test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni',
+    },
+
+      body: JSON.stringify(tasacionArray),
+    };
+    
+    
+    const tasacionArrayEnviar = await enviarTasacion(data)
+
+
+  }
     const { 
         setformOpen,
         formOpen
        } = useContext(GeneralContext);
 
-function formSubmithandler(){
-  alert("enviar datos")
-    
-}
+
 
   return (
     <div>
       <h1>Información de piso</h1>
-      <input type="number" placeholder='Superficie'/>
-      <input type="number" placeholder='habitaciones'/>
-      <input type="number" placeholder='baño'/>
-      <input type="number" placeholder='Api Key'/>
-      <button type='button' onClick={tasacion} onSubmit={formSubmithandler}>ENVIAR</button>
+      <input type="number" min='1' placeholder='Superficie'/>
+      <input type="number" min='1' placeholder='habitaciones'/>
+      <input type="number" min='1' placeholder='baño'/>
+      <input type="text" placeholder='Api Key' value='test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni'/>
+      <button type='button' onClick={tasacion} >ENVIAR</button>
     </div>
   )
 }
