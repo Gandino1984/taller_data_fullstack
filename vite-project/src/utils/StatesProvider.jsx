@@ -6,10 +6,13 @@ function StatesProvider({children}){
 
     const [formOpen, setformOpen] = useState(false)
     const [states, setStates] = useState(null)
+    const [tasar, setTasar] = useState(null)
 
     const contextValue = {
     formOpen,
-    setformOpen
+    setformOpen,
+    tasar, 
+    setTasar
     };
 
     return (

@@ -1,12 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {useState } from 'react'
 import { useContext } from 'react';
 import GeneralContext from './utils/GeneralContext';
-import { enviarTasacion } from './api/apiTasador';
-import './assets/Form.css'
+import './Form.css'
 
 function Form() {
+  const [dato, setDato] = useState('')
 
+  const { 
+    tasar,
+    setTasar
+   } = useContext(GeneralContext);
+
+   async function enviarTasacion(data) {
+
+
+
+    fetch('http://unema.es:5000/api/predict', data)
+    .then(data => {
+        if (!data.ok) {
+          throw Error(data.status);
+         }
+        return data.json();
+        }).then(update => {
+        console.log(update);
+        setTasar(update.predicted_price)
+        }).catch(e => {
+        console.log(e);
+        });
+        
+
+  }
 
   async function tasacion(e){
 
@@ -22,7 +46,7 @@ function Form() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni',
+        'x-api-key': 'test_5ghbr8UdgVwCLyp4VdGJhHVziFm4dcV0b974Xtni',
     },
 
       body: JSON.stringify(tasacionArray),
@@ -33,12 +57,14 @@ function Form() {
 
 
   }
+
+
+
+
     const { 
         setformOpen,
         formOpen
        } = useContext(GeneralContext);
-
-
 
 
   return (
@@ -47,11 +73,10 @@ function Form() {
             <h1>Información de piso</h1>
             <input type="number" min='1' placeholder='Superficie'/>
             <input type="number" min='1' placeholder='habitaciones'/>
-            <input type="number" min='1' placeholder='baño'/>
-            <input type="text" placeholder='Api Key' value='test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni'/>
-            
+            <input type="number" min='1' placeholder='baño'/>         
             <button type='button' onClick={tasacion} >ENVIAR</button>
         </div>
+        <h2>{tasar}</h2>
     </div>
   )
 }
