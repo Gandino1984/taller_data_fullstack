@@ -3,7 +3,7 @@ import {useState } from 'react'
 import { useContext } from 'react';
 import GeneralContext from './utils/GeneralContext';
 import { enviarTasacion } from './api/apiTasador';
-
+import './assets/Form.css'
 
 function Form() {
 
@@ -40,14 +40,18 @@ function Form() {
 
 
 
+
   return (
-    <div>
-      <h1>Información de piso</h1>
-      <input type="number" min='1' placeholder='Superficie'/>
-      <input type="number" min='1' placeholder='habitaciones'/>
-      <input type="number" min='1' placeholder='baño'/>
-      <input type="text" placeholder='Api Key' value='test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni'/>
-      <button type='button' onClick={tasacion} >ENVIAR</button>
+    <div className='formContainer'>
+        <div className='form'>
+            <h1>Información de piso</h1>
+            <input type="number" min='1' placeholder='Superficie'/>
+            <input type="number" min='1' placeholder='habitaciones'/>
+            <input type="number" min='1' placeholder='baño'/>
+            <input type="text" placeholder='Api Key' value='test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni'/>
+            
+            <button type='button' onClick={tasacion} >ENVIAR</button>
+        </div>
     </div>
   )
 }
