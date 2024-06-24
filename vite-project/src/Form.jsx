@@ -3,7 +3,7 @@ import {useState } from 'react'
 import { useContext } from 'react';
 import GeneralContext from './utils/GeneralContext';
 import { enviarTasacion } from './api/apiTasador';
-
+import './assets/Form.css'
 
 function Form() {
   async function tasacion(e){
@@ -29,18 +29,20 @@ function Form() {
        } = useContext(GeneralContext);
 
 function formSubmithandler(){
-  alert("enviar datos")
-    
+  alert("enviar datos")   
 }
 
   return (
-    <div>
-      <h1>Información de piso</h1>
-      <input type="number" placeholder='Superficie'/>
-      <input type="number" placeholder='habitaciones'/>
-      <input type="number" placeholder='baño'/>
-      <input type="number" placeholder='Api Key'/>
-      <button type='button' onClick={tasacion} onSubmit={formSubmithandler}>ENVIAR</button>
+    <div className='formContainer'>
+        <div className='form'>
+            <h1>Información de piso</h1>
+            <input type="number" placeholder='Superficie'/>
+            <input type="number" placeholder='habitaciones'/>
+            <input type="number" placeholder='baño'/>
+            <input type="number" placeholder='Api Key'/>
+            
+            <button type='button' onClick={tasacion} onSubmit={formSubmithandler}>ENVIAR</button>
+        </div>
     </div>
   )
 }
