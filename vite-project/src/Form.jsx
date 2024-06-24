@@ -75,8 +75,9 @@ function Form() {
             <input type="number" min='1' placeholder='habitaciones'/>
             <input type="number" min='1' placeholder='baño'/>         
             <button type='button' onClick={tasacion} >ENVIAR</button>
+            <h2 className='resultado'>{tasar}</h2>
         </div>
-        <h2>{tasar}</h2>
+       
     </div>
   )
 }
