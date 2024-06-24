@@ -1,5 +1,5 @@
 async function enviarTasacion(data) {
-    fetch('', data)
+    fetch('http://unema.es:5000/api/predict', data)
     .then(data => {
         if (!data.ok) {
           throw Error(data.status);
@@ -18,21 +18,3 @@ async function enviarTasacion(data) {
   }
 
 
-
- /*  const tasacionArray = {'surface': '',
-                            'bedrooms', '', 
-                            restrooms, '',
-                            'apiKeyInput', 'test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni'}
-
-  const data = {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(tasacionArray),
-      };
-
-
-    const tasacionArrayEnviar = await enviarTasacion(data)
-
-    */
