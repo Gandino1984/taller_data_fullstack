@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 
+import { enviarTasacion } from './api/apiTasador'
+
 function App() {
   
 

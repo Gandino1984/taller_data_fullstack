@@ -21,7 +21,8 @@ async function enviarTasacion(data) {
 
  /*  const tasacionArray = {'surface': '',
                             'bedrooms', '', 
-                            restrooms, ''}
+                            restrooms, '',
+                            'apiKeyInput', 'test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni'}
 
   const data = {
       method: 'POST',
