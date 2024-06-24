@@ -1,35 +1,39 @@
-import { useState } from 'react'
+import { useState, useContext} from 'react'
 import './App.css'
-
-import { enviarTasacion } from './api/apiTasador'
+import Form from './Form'
+import StatesProvider from './utils/StatesProvider'
+import GeneralContext from './utils/GeneralContext'
 
 function App() {
 
-  async function tasacion(e){
-  const tasacionArray = {'surface': '',
-    'bedrooms': '', 
-    'restrooms': ''}
-
-const data = {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json',
-'x-api-key': 'test_5ghbr8UdgVwCLyp4VdGjhHVziFm4dcV0b974Xtni',
-},
-body: JSON.stringify(tasacionArray),
-};
+  const { 
+    setformOpen,
+    formOpen
+   } = useContext(GeneralContext);
 
 
-const tasacionArrayEnviar = await enviarTasacion(data)
-  }
+   function appClickhandler(){
+    if(formOpen){
+      setformOpen(false)
+    }else{
+      setformOpen(true)
+    }
+    
+   }
+  
 
   return (
-    <>
+   
       <div className='appContainer'>
         <h1>App</h1>
-        <button onClick={tasacion}>INICIAR</button>
+        <button type='button' onClick={appClickhandler} >INICIAR</button>
+        {formOpen && <Form/>}
       </div>
-    </>
+
+
+
+    
+    
   )
 }
 
