@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Genie GPT</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <style>
+        #gifContainer {
+            position: relative;
+            width: 50px; 
+            height: 50px; 
+        }
+        #staticImage, #gifImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        #gifImage {
+            display: none; /* Ocultar el GIF inicialmente */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #693784;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .image-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .image-button img {
+            width: auto;
+            height: 50px; 
+        }
+        .questions {
+            margin-top: 20px;
+        }
+        .question {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Genie GPT</h1>
+        <div id="gifContainer">
+            <img id="staticImage" src="img/frame.gif" alt="Imagen Estática">
+            <img id="gifImage" src="img/genio.gif" alt="GIF">
+        </div>
+        <form id="questionForm">
+            <input type="text" id="nameInput" placeholder="Your name" required>
+            <input type="text" id="messageInput" placeholder="Haz tu pregunta y toca la lámpara..." required>
+            <input type="text" id="apiKeyInput" placeholder="API Key" required>
+            <select id="environmentSelect">
+                <option value="http://localhost:5000">Localhost</option>
+                <option value="http://unema.es:5000" selected>Unema</option>
+            </select>
+            <button type="submit" class="image-button" onclick="playGif(event)">
+                <img src="img/lampara.png" alt="Lámpara">
+            </button>
+        </form>
+        <div class="questions" id="questions"></div>
+        <div class="error" id="error"></div>
+    </div>
+    <script>
+        document.getElementById('questionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('nameInput').value;
+            const messageInput = document.getElementById('messageInput').value;
+            const apiKeyInput = document.getElementById('apiKeyInput').value;
+            const environment = document.getElementById('environmentSelect').value;
+
+            fetch(`${environment}/api/questions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKeyInput
+                },
+                body: JSON.stringify({
+                    name: nameInput,
+                    message: messageInput
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('nameInput').value = '';
+                document.getElementById('messageInput').value = '';
+                document.getElementById('apiKeyInput').value = '';
+                document.getElementById('error').textContent = '';
+                loadQuestions();
+            })
+            .catch(error => {
+                document.getElementById('error').textContent = `Error: ${error.message}`;
+                console.error('Error:', error);
+            });
+        });
+
+        function loadQuestions() {
+            const environment = document.getElementById('environmentSelect').value;
+            fetch(`${environment}/api/questions`)
+                .then(response => response.json())
+                .then(data => {
+                    const questionsDiv = document.getElementById('questions');
+                    questionsDiv.innerHTML = '';
+                    data.forEach(question => {
+                        const questionDiv = document.createElement('div');
+                        questionDiv.className = 'question';
+                        questionDiv.innerText = `Name: ${question.name}, Message: ${question.message}, Response: ${question.response}, Timestamp: ${question.timestamp}`;
+                        questionsDiv.appendChild(questionDiv);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('error').textContent = `Error: ${error.message}`;
+                    console.error('Error:', error);
+                });
+        }
+
+        window.onload = loadQuestions;
+
+        function playGif(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe inmediatamente
+            var gifImage = document.getElementById('gifImage');
+            var staticImage = document.getElementById('staticImage');
+            staticImage.style.display = 'none';
+            gifImage.style.display = 'block';
+
+            var gifDuration = 2000; // Duración del GIF en milisegundos
+            var repetitions = 3;
+            var totalDuration = gifDuration * repetitions;
+
+            var gifSrc = gifImage.src;
+            gifImage.src = ''; // Reiniciar el GIF
+            gifImage.src = gifSrc; // Restaurar el src original
+
+            setTimeout(function() {
+                gifImage.style.display = 'none';
+                staticImage.style.display = 'block';
+            }, totalDuration);
+        }
+    </script>
+</body>
+</html>
