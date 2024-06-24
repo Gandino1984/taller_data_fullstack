@@ -5,6 +5,7 @@ function StatesProvider({children}){
 
 
     const [formOpen, setformOpen] = useState(false)
+    const [states, setStates] = useState(null)
 
     const contextValue = {
     formOpen,
